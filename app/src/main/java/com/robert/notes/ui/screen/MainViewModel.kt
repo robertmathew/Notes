@@ -1,4 +1,4 @@
-package com.robert.notes
+package com.robert.notes.ui.screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
