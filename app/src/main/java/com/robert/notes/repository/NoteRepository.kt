@@ -36,11 +36,11 @@ class NoteRepository(private val noteDao: NoteDao) {
 //        }
 //    }
 //
-//    fun findEmployeeById(empId: String) {
-//        coroutineScope.launch(Dispatchers.IO) {
-//            foundEmployee.postValue(employeeDao.findEmployeeById(empId))
-//        }
-//    }
+    fun findNoteById(noteId: Int) {
+        coroutineScope.launch(Dispatchers.IO) {
+            foundNote.postValue(noteDao.findNoteById(noteId))
+        }
+    }
 
 
 }
