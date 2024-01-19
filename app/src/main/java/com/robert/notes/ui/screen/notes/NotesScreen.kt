@@ -46,7 +46,9 @@ fun ListScreen(
     val noteList: List<Note> by viewModel.noteList.observeAsState(initial = listOf())
 
     Scaffold(topBar = { NoteTopAppBar() }, floatingActionButton = {
-        FloatingActionButton(onClick = { }) {
+        FloatingActionButton(onClick = {
+            navController.navigate(Screen.EditScreen.route)
+        }) {
             Icon(imageVector = Icons.Filled.Add, contentDescription = "add")
         }
     }) { innerPadding ->
