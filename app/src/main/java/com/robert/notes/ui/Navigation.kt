@@ -7,13 +7,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.robert.notes.ui.NoteDestinationsArgs.NOTE_ID_ARG
-import com.robert.notes.ui.screen.notedetail.EditNoteScreen
+import com.robert.notes.ui.screen.notedetail.NoteDetailScreen
 import com.robert.notes.ui.screen.notes.ListScreen
 
 object NoteDestinationsArgs {
-    const val USER_MESSAGE_ARG = "userMessage"
     const val NOTE_ID_ARG = "noteId"
-    const val TITLE_ARG = "title"
 }
 
 @Composable
@@ -25,13 +23,13 @@ fun Navigation() {
             ListScreen(navController = navController)
         }
         composable(
-            route = Screen.EditScreen.route + "/{$NOTE_ID_ARG}",
+            route = Screen.EditScreen.route + "?id={$NOTE_ID_ARG}",
             arguments = listOf(
-                navArgument(NOTE_ID_ARG) { type = NavType.StringType; defaultValue = "0" },
+                navArgument(NOTE_ID_ARG) { type = NavType.IntType; defaultValue = -1 },
             )
         ) { entry ->
-            EditNoteScreen(
-                noteId = entry.arguments?.getString(NOTE_ID_ARG),
+            NoteDetailScreen(
+                noteId = entry.arguments?.getInt(NOTE_ID_ARG),
                 navController = navController
             )
         }

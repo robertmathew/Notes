@@ -59,7 +59,7 @@ fun ListScreen(
         ) {
             items(items = noteList) { note ->
                 ListItem(note = note,
-                    onNoteClick = { note -> navController.navigate(Screen.EditScreen.withArgs(note.id.toString())) })
+                    onNoteClick = { note -> navController.navigate(Screen.EditScreen.withNoteIdArgs(note.id)) })
             }
         }
     }

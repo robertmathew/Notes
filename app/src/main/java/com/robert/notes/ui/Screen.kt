@@ -10,4 +10,11 @@ sealed class Screen(val route: String) {
             args.forEach { args -> append("/$args") }
         }
     }
+
+    fun withNoteIdArgs(noteId: Int?): String {
+        return buildString {
+            append(route)
+            append("?id=$noteId")
+        }
+    }
 }
