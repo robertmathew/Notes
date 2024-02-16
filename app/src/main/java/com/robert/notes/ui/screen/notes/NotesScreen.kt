@@ -38,7 +38,6 @@ fun ListScreen(
     navController: NavController,
     viewModel: NotesViewModel = hiltViewModel(),
 ) {
-//    viewModel.addNote(Note(title = "A big title 2", note = "This is a big note. So this should be very big. It should be eye popping", createdAt = "22-10-2023", updatedAt = "23-10-2023", id = null))
 
     viewModel.getAllNotes()
     val lazyListState = rememberLazyListState()

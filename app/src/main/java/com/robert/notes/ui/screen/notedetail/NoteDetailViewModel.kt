@@ -2,13 +2,14 @@ package com.robert.notes.ui.screen.notedetail
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.robert.notes.data.local.Note
 import com.robert.notes.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,11 +41,14 @@ class NoteDetailViewModel @Inject constructor(private val noteRepository: NoteRe
     }
 
     fun saveNote() {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+        val current = LocalDateTime.now().format(formatter)
         if (foundNote.value != null) {
             updateNoteDetails(
                 foundNote.value!!.copy(
                     title = title,
-                    note = content
+                    note = content,
+                    updatedAt = current
                 )
             )
         } else {
@@ -52,9 +56,8 @@ class NoteDetailViewModel @Inject constructor(private val noteRepository: NoteRe
                 Note(
                     title = title,
                     note = content,
-                    createdAt = "15-2-2023",
-                    updatedAt = "23-10-2023",
-                    id = null
+                    createdAt = current,
+                    updatedAt = current
                 )
             )
         }
@@ -62,5 +65,15 @@ class NoteDetailViewModel @Inject constructor(private val noteRepository: NoteRe
 
     fun updateNoteDetails(note: Note) {
         noteRepository.updateNote(note)
+    }
+
+    fun deleteNote() {
+        if (foundNote.value != null) {
+            deleteNoteDetails(foundNote.value!!)
+        }
+    }
+
+    fun deleteNoteDetails(note: Note) {
+        noteRepository.deleteNote(note)
     }
 }

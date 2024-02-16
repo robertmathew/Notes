@@ -6,15 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,9 +23,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,21 +48,19 @@ fun NoteDetailScreen(
         viewModel.updateContent(note.note)
     }
 
-    Scaffold(topBar = {
-        NoteTopAppBar(onBackPress = {
-            navController.popBackStack()
-        })
-    }, floatingActionButton = {
-        FloatingActionButton(modifier = Modifier
-            .padding(16.dp)
-            .navigationBarsPadding()
-            .imePadding(), onClick = {
-            viewModel.saveNote()
-            navController.popBackStack()
-        }) {
-            Icon(imageVector = Icons.Filled.Check, contentDescription = "save")
-        }
-    }) { innerPadding ->
+    Scaffold(
+        topBar = {
+            NoteTopAppBar(onBackPress = {
+                navController.popBackStack()
+            }, onSavePress = {
+                viewModel.saveNote()
+                navController.popBackStack()
+            }, onDeletePress = {
+                viewModel.deleteNote()
+                navController.popBackStack()
+            })
+        },
+    ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -89,17 +83,22 @@ fun NoteDetailScreen(
 }
 
 @Composable
-fun NoteTopAppBar(onBackPress: () -> (Unit)) {
-    TopAppBar(
-        navigationIcon = {
-            Icon(
-                modifier = Modifier.clickable { onBackPress() },
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = "back"
-            )
-        }, colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primary,
-        ), title = { }, modifier = Modifier.fillMaxWidth()
-    )
+fun NoteTopAppBar(onBackPress: () -> (Unit), onSavePress: () -> Unit, onDeletePress: () -> Unit) {
+    TopAppBar(navigationIcon = {
+        Icon(
+            modifier = Modifier.clickable { onBackPress() },
+            imageVector = Icons.Filled.ArrowBack,
+            contentDescription = "back"
+        )
+    }, colors = TopAppBarDefaults.topAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        titleContentColor = MaterialTheme.colorScheme.primary,
+    ), title = { }, modifier = Modifier.fillMaxWidth(), actions = {
+        IconButton(onClick = { onDeletePress() }) {
+            Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete")
+        }
+        IconButton(onClick = { onSavePress() }) {
+            Icon(imageVector = Icons.Filled.Check, contentDescription = "Save")
+        }
+    })
 }

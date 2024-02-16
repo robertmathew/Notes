@@ -30,12 +30,12 @@ class NoteRepository(private val noteDao: NoteDao) {
         }
     }
 
-//    fun deleteNote(note: Note) {
-//        coroutineScope.launch(Dispatchers.IO) {
-//            noteDao.deleteEmployee(employee)
-//        }
-//    }
-//
+    fun deleteNote(note: Note) {
+        coroutineScope.launch(Dispatchers.IO) {
+            noteDao.deleteNote(note)
+        }
+    }
+
     fun findNoteById(noteId: Int) {
         coroutineScope.launch(Dispatchers.IO) {
             foundNote.postValue(noteDao.findNoteById(noteId))
