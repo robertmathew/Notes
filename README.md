@@ -7,8 +7,10 @@ A demo Note app using Jetpack Compose and Hilt based on modern Android tech-stac
 
 ## Screenshot
 
-![Screenshot 1](assets%2FScreenshot_20240217_184709.png)
-![Screenshot 2](assets%2FScreenshot_20240217_184742.png)
+<p align="center">
+<img src="/assets/Screenshot_20240217_184709.png" width="270"/>
+<img src="/assets/Screenshot_20240217_184742.png" width="270"/>
+</p>
 
 ## Tech stack
 - Jetpack Compose
