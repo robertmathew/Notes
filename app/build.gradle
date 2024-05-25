@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.plugin.compose'
+    id 'com.google.devtools.ksp'
     id 'com.google.dagger.hilt.android'
 }
 
@@ -38,9 +39,6 @@ android {
     buildFeatures {
         compose true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.14'
-    }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
@@ -48,13 +46,15 @@ android {
     }
 }
 
-kapt {
-    correctErrorTypes true
+composeCompiler {
+    enableStrongSkippingMode = true
+
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
 dependencies {
 
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.9.23')
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.0.0')
     implementation 'androidx.core:core-ktx:1.13.1'
 
     implementation 'androidx.activity:activity-compose:1.9.0'
@@ -89,9 +89,9 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.compose.runtime:runtime-livedata:1.6.7"
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
 
     //Dagger-Hilt
     implementation 'com.google.dagger:hilt-android:2.51.1'
-    kapt 'com.google.dagger:hilt-compiler:2.51.1'
+    ksp 'com.google.dagger:hilt-compiler:2.51.1'
 }
